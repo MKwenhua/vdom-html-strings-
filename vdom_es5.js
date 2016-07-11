@@ -84,6 +84,9 @@ nodeMap.prototype.html = (function() {
     src: function(vl) {
       return ' src="' + vl + '"';
     },
+    style: function(vl) {
+      return ' style="' + vl + '"';
+    },
     value: function(itm) {
       if (itm) {
         return ' value="' + itm + '"';
@@ -153,28 +156,44 @@ nodeMap.prototype.buildBranch = function(branchName) {
 var EX = new nodeMap('example');
 var elm = EX.node("div", {
     id: 'theList',
-    class: 'has-borders  rounded-outline',
     data: [{
       key: "stock",
       val: "32"
     }]
   },
   EX.node("ul", {
-      class: "list",
-      id: "what",
+      id: "movieList",
+      class: 'movie-list',
       data: [{
-        key: "thing",
-        val: "stuff"
+        key: "date",
+        val: new Date()
       }, {
-        key: "nk",
-        val: "88"
+        key: "type",
+        val: "top 3"
       }]
-    },
-    EX.node("li", {}, "item 1", EX.node("span", {
-      class: "lvl-show"
-    }, "lvl 2")),
-    EX.node("li", {}, "item 2"),
-    EX.node("li", {}, "item 3")
+    }, 
+    EX.node("li", {data: [{key:"url", val:"http://www.imdb.com/title/tt0078748/?ref_=nv_sr_2"}]},
+    EX.node("img", {
+        src: "http://ia.media-imdb.com/images/M/MV5BMTU1ODQ4NjQyOV5BMl5BanBnXkFtZTgwOTQ3NDU2MTE@._V1_SY1000_CR0,0,666,1000_AL_.jpg"
+      }),
+    EX.node("div", {}, "Alien", EX.node("span", 
+    {class: "lvl-show", style:"color:#1E90FF" }, "1979"))),
+
+
+    EX.node("li", {data: [{key:"url", val:"http://www.imdb.com/title/tt0078748/?ref_=nv_sr_2"}]},
+    EX.node("img", {
+        src: "http://ia.media-imdb.com/images/M/MV5BMTI2ODMzODA0Ml5BMl5BanBnXkFtZTYwNTM3NzY5._V1._CR17,27,308,447_.jpg"
+      }),
+    EX.node("div", {}, "Predator", EX.node("span", 
+    {class: "lvl-show", style:"color:#1E90FF" }, "1986"))),
+
+    EX.node("li", {data: [{key:"url", val:"http://www.imdb.com/title/tt0090728/?ref_=nv_sr_1"}]},
+    EX.node("img", {
+        src: "http://ia.media-imdb.com/images/M/MV5BMTk5MjI4MzIxMl5BMl5BanBnXkFtZTYwODU1MDQ5._V1_.jpg"
+      }),
+    EX.node("div", {}, "Big Trouble in Little China", EX.node("span", 
+    {class: "lvl-show", style:"color:#1E90FF" }, "1986")))
+
   ),
   EX.node("p", {
     class: "italic-blue"
