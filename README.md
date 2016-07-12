@@ -5,7 +5,7 @@ example here: https://output.jsbin.com/nixuca
 
 ## Synopsis
 
-This is a simple Virtual Dom experiment I made for fun. In order to better understand React, I decided to build something similar myself inorder to get deeper insight into Reacts internals. I called this Repo vdom-html-strings because instead of creating elements directly using document.create, I decided to build html using strings. The HTML string constructor would be able to work within a webworker. 
+This is a simple Virtual Dom experiment I made for fun. In order to better understand React, I decided to build something similar myself in order to get deeper insight into Reacts internals. I called this Repo vdom-html-strings because instead of creating elements directly using document.create, I decided to build html content using strings for batch updates. The HTML string constructor would be able to work within a webworker.
 
 ## Code Example Input
 ```javascript

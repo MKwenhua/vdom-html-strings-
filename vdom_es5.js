@@ -1,6 +1,5 @@
 function nodeMap(appTitle = 'default') {
   this.appTitle = appTitle;
-  var self = this;
 }
 
 nodeMap.prototype.domBranches = {};
@@ -55,64 +54,63 @@ nodeMap.prototype.html = (function() {
   };
 
   function eventRegistry(itm) {
-
+  	//itm
   };
   var propHandle = {
-    id: function(itm) {
+    id: function (itm) {
       if (itm) {
         return ' id="' + itm + '"';
       }
       return '';
     },
-    class: function(itm) {
+    class: function (itm) {
       if (itm) {
         return ' class="' + itm + '"';
       }
       return '';
     },
-    height: function(vl) {
+    height: function (vl) {
       return ' height="' + vl + '"';
     },
-    width: function(vl) {
+    width: function (vl) {
       return ' width="' + vl + '"';
     },
-    title: function(vl) {
+    title: function (vl) {
       return ' title="' + vl + '"';
     },
-    alt: function(vl) {
+    alt: function (vl) {
       return ' alt="' + vl + '"';
     },
-    href: function(vl) {
+    href: function (vl) {
       return ' href="' + vl + '"';
     },
-    src: function(vl) {
+    src: function (vl) {
       return ' src="' + vl + '"';
     },
-    style: function(vl) {
+    style: function (vl) {
       return ' style="' + vl + '"';
     },
-    value: function(itm) {
+    value: function (itm) {
       if (itm) {
         return ' value="' + itm + '"';
       }
       return '';
     },
-    data: function(itm) {
+    data: function (itm) {
       if (!itm) {
         return '';
       }
       return itm.reduce(dtaBuilder, []).join('');
     },
-    event: function(itm) {
-      if (!itm) {
-        return '';
-      }
-      return eventRegistry(itm);
+    events: function(itm) {
+      eventRegistry(itm);
+      
+      return '';
     }
 
   }
 
-  function getProps(pp) {
+  function getProps (pp) {
     var theKeys = Object.keys(pp);
     if (theKeys.length === 0) return '';
 
@@ -124,13 +122,13 @@ nodeMap.prototype.html = (function() {
 
 
   var HT = {
-    htmlBuild: function(node, group) {
+    htmlBuild: function (node, group) {
       if (typeof node === 'string') {
         return node + ' ';
       }
       return HT.htmlString(node, group);
     },
-    eachChild: function(kids, group) {
+    eachChild: function (kids, group) {
       if (!kids) {
         return '';
       }
@@ -144,7 +142,7 @@ nodeMap.prototype.html = (function() {
     },
 
 
-    htmlString: function(node, group) {
+    htmlString: function (node, group) {
       var traceBackKey = group ?  ' data-trace="' + group + '"': '';
       return ['<', node.type, getProps(node.props), traceBackKey, '>', HT.eachChild(node.kids, group), '</', node.type, '>'].join('');
     },
@@ -152,12 +150,14 @@ nodeMap.prototype.html = (function() {
   }
   return HT;
 })();
-nodeMap.prototype.buildBranch = function(branchName) {
+nodeMap.prototype.buildBranch = function (branchName) {
   this.domContainers[branchName].innerHTML = this.html.htmlBuild(this.domBranches[branchName], branchName);
 
 };
 
 var EX = new nodeMap('example');
+
+
 var elm = EX.node("div", {
     id: 'theList',
     data: [{
@@ -184,7 +184,7 @@ var elm = EX.node("div", {
     {class: "lvl-show", style:"color:#1E90FF" }, "1979"))),
 
 
-    EX.node("li", {data: [{key:"url", val:"http://www.imdb.com/title/tt0078748/?ref_=nv_sr_2"}]},
+    EX.node("li", { events:[{type: 'click', func: 'sayHey', args: null }] ,data: [{key:"url", val:"http://www.imdb.com/title/tt0078748/?ref_=nv_sr_2"}]},
     EX.node("img", {
         src: "http://ia.media-imdb.com/images/M/MV5BMTI2ODMzODA0Ml5BMl5BanBnXkFtZTYwNTM3NzY5._V1._CR17,27,308,447_.jpg"
       }),
