@@ -1,19 +1,18 @@
 function nodeMap(appTitle = 'default') {
   this.appTitle = appTitle;
-  var self = this;
 }
 
 nodeMap.prototype.domBranches = {};
 nodeMap.prototype.rootDomElement = null;
 nodeMap.prototype.domContainers = {};
 nodeMap.prototype.domContainersEvents = {};
-nodeMap.prototype.addContainer = function(keyy, domElement) {
+nodeMap.prototype.addContainer = (keyy, domElement)  => {
   if (domElement instanceof HTMLElement) {
     this.domContainers[keyy] = domElement;
     this.domContainersEvents[keyy] = {};
     return true;
   }
-  var elem = document.querySelector(domElement);
+  let elem = document.querySelector(domElement);
   if (elem) {
     this.domContainers[keyy] = elem;
     return true;
@@ -21,7 +20,7 @@ nodeMap.prototype.addContainer = function(keyy, domElement) {
   console.error("Element: " + domElement + " not found");
   return false;
 };
-nodeMap.prototype.addBranch = function(obj, containerElement) {
+nodeMap.prototype.addBranch = (obj, containerElement) => {
   if (!(obj instanceof Array) && obj instanceof Object) {
     if (!obj["branchName"] || !obj["branchObject"]) {
       console.error("Object must have a branchName and branchObject");
@@ -32,7 +31,7 @@ nodeMap.prototype.addBranch = function(obj, containerElement) {
   }
 
 };
-nodeMap.prototype.viewObjects = function() {
+nodeMap.prototype.viewObjects = () => {
   console.log('domContainers', this.domContainers);
   console.log('domContainersEvents', this.domContainersEvents);
   console.log('domBranches', this.domBranches);
@@ -40,7 +39,7 @@ nodeMap.prototype.viewObjects = function() {
 };
 
 
-nodeMap.prototype.node = function(type, props, ...kids) {
+nodeMap.prototype.node = (type, props, ...kids) => {
   return {
     type,
     props,
@@ -48,7 +47,7 @@ nodeMap.prototype.node = function(type, props, ...kids) {
   };
 }
 
-nodeMap.prototype.html = (function() {
+nodeMap.prototype.html = (() => {
   function dtaBuilder(oo, itm) {
     oo.push(' data-' + itm.key + '="' + itm.val + '"');
     return oo;
@@ -58,52 +57,52 @@ nodeMap.prototype.html = (function() {
 
   };
   var propHandle = {
-    id: function(itm) {
+    id: (itm) => {
       if (itm) {
         return ' id="' + itm + '"';
       }
       return '';
     },
-    class: function(itm) {
+    class: (itm) => {
       if (itm) {
         return ' class="' + itm + '"';
       }
       return '';
     },
-    height: function(vl) {
+    height:  (vl) => {
       return ' height="' + vl + '"';
     },
-    width: function(vl) {
+    width:  (vl) => {
       return ' width="' + vl + '"';
     },
-    title: function(vl) {
+    title: (vl) => {
       return ' title="' + vl + '"';
     },
-    alt: function(vl) {
+    alt: (vl) => {
       return ' alt="' + vl + '"';
     },
-    href: function(vl) {
+    href:  (vl) => {
       return ' href="' + vl + '"';
     },
-    src: function(vl) {
+    src:  (vl) => {
       return ' src="' + vl + '"';
     },
-    style: function(vl) {
+    style:  (vl) => {
       return ' style="' + vl + '"';
     },
-    value: function(itm) {
+    value:  (itm) => {
       if (itm) {
         return ' value="' + itm + '"';
       }
       return '';
     },
-    data: function(itm) {
+    data: (itm) => {
       if (!itm) {
         return '';
       }
       return itm.reduce(dtaBuilder, []).join('');
     },
-    event: function(itm) {
+    event: (itm) => {
       if (!itm) {
         return '';
       }
@@ -112,53 +111,53 @@ nodeMap.prototype.html = (function() {
 
   }
 
-  function getProps(pp) {
-    var theKeys = Object.keys(pp);
+ const getProps  = (pp) => {
+    let theKeys = Object.keys(pp);
     if (theKeys.length === 0) return '';
 
-    return theKeys.reduce(function(ob, ii) {
+    return theKeys.reduce((ob, ii) => {
       ob.push(propHandle[ii](pp[ii]));
       return ob;
     }, []).join('');
   }
 
 
-  var HT = {
-    htmlBuild: function(node, group) {
+  const HT = {
+    htmlBuild:  (node, group) => {
       if (typeof node === 'string') {
         return node + ' ';
       }
       return HT.htmlString(node, group);
     },
-    eachChild: function(kids, group) {
+    eachChild:  (kids, group) => {
       if (!kids) {
         return '';
       }
-      var kdArr = [];
-      var trace = group ? group + '.kids': false;
-      kids.forEach(function(itm, i) {
-      	var traceTo = trace ? trace + '.' + i : '';
+      let kdArr = [];
+      let trace = group ? group + '.kids': false;
+      kids.forEach((itm, i) => {
+      	let traceTo = trace ? trace + '.' + i : '';
         kdArr.push(HT.htmlBuild(itm, traceTo));
       });
       return kdArr.join('');
     },
 
 
-    htmlString: function(node, group) {
-      var traceBackKey = group ?  ' data-trace="' + group + '"': '';
+    htmlString:  (node, group) => {
+      let traceBackKey = group ?  ' data-trace="' + group + '"': '';
       return ['<', node.type, getProps(node.props), traceBackKey, '>', HT.eachChild(node.kids, group), '</', node.type, '>'].join('');
     },
 
   }
   return HT;
 })();
-nodeMap.prototype.buildBranch = function(branchName) {
+nodeMap.prototype.buildBranch =  (branchName) => {
   this.domContainers[branchName].innerHTML = this.html.htmlBuild(this.domBranches[branchName], branchName);
 
 };
 
-var EX = new nodeMap('example');
-var elm = EX.node("div", {
+const EX = new nodeMap('example');
+const elm = EX.node("div", {
     id: 'theList',
     data: [{
       key: "stock",
@@ -203,7 +202,7 @@ var elm = EX.node("div", {
     class: "italic-blue"
   }, "加多一點味精加多一點健康的生活")
 );
-var elm2 = EX.node("div", {
+const elm2 = EX.node("div", {
     id: 'theList'
   },
   EX.node("ul", {
@@ -264,5 +263,3 @@ EX.addBranch({
 }, '#div2');
 
 EX.buildBranch('list2');
-
-EX.viewObjects();
