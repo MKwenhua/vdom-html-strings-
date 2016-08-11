@@ -1,7 +1,7 @@
 # vdom-html-strings-
 
 ## JSBIN
-example here: https://output.jsbin.com/nixuca
+example here: https://scredisapi-scgraph.rhcloud.com/example
 
 ## Synopsis
 
