@@ -32,7 +32,7 @@ var elm = EX.node("div", { id: 'theList', data: [{key: "stock", val: "32" }]},
       EX.node("img", {
         src: "http://ia.media-imdb.com/images/M/MV5BMTk5MjI4MzIxMl5BMl5BanBnXkFtZTYwODU1MDQ5._V1_.jpg"
       }),
-      EX.node("div", {}, "Big Trouble in Little China", EX.node("span", {class: "lvl-show", style: "color:#1E90FF"
+      EX.node("div", {}, "Big Trouble ", EX.node("span", {class: "lvl-show", style: "color:#1E90FF"
       }, "1986")))
   )
 );
